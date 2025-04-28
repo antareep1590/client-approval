@@ -50,19 +50,21 @@ const QuoteReview = () => {
               </div>
             </div>
 
-            {/* Item Description and Quantity Side by Side */}
-            <div className="grid md:grid-cols-2 gap-6">
+            {/* Item Description and Quantity in Single Row */}
+            <div className="grid grid-cols-12 gap-6">
               {/* Item Description */}
-              <div>
+              <div className="col-span-9">
                 <h2 className="font-semibold text-gray-900 mb-3">Item Description</h2>
                 <div className="bg-white border rounded-lg p-4">
-                  <h3 className="font-medium text-gray-900">Take Down and Remove (TDR)</h3>
-                  <p className="text-gray-600 mt-1">Cut down and remove (log, branches, brush). Location to be prune-less than 16 inches in diameter.</p>
+                  <div className="flex flex-col space-y-1">
+                    <h3 className="font-medium text-gray-900">Take Down and Remove (TDR)</h3>
+                    <p className="text-gray-600">Cut down and remove (log, branches, brush). Location to be prune-less than 16 inches in diameter.</p>
+                  </div>
                 </div>
               </div>
 
               {/* Quantity */}
-              <div>
+              <div className="col-span-3">
                 <h2 className="font-semibold text-gray-900 mb-3">Quantity</h2>
                 <Input
                   type="number"
@@ -75,7 +77,7 @@ const QuoteReview = () => {
               </div>
             </div>
 
-            {/* Signature Section - More Compact */}
+            {/* Signature Section */}
             <div className="border rounded-lg p-3">
               <div className="flex items-center justify-between mb-2">
                 <h2 className="font-semibold text-gray-900">Signature</h2>
