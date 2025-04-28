@@ -1,4 +1,3 @@
-
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -57,22 +56,24 @@ const QuoteReview = () => {
               </div>
             </div>
 
-            {/* Service Details */}
-            <div>
-              <h2 className="font-semibold text-gray-900 mb-3">Service Details</h2>
-              <div className="bg-white border rounded-lg p-4">
-                <h3 className="font-medium text-gray-900">Take Down and Remove (TDR)</h3>
-                <p className="text-gray-600 mt-1">Cut down and remove (log, branches, brush). Location to be prune-less than 16 inches in diameter.</p>
+            {/* Service Details and Quantities Side by Side */}
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Service Details */}
+              <div>
+                <h2 className="font-semibold text-gray-900 mb-3">Service Details</h2>
+                <div className="bg-white border rounded-lg p-4">
+                  <h3 className="font-medium text-gray-900">Take Down and Remove (TDR)</h3>
+                  <p className="text-gray-600 mt-1">Cut down and remove (log, branches, brush). Location to be prune-less than 16 inches in diameter.</p>
+                </div>
               </div>
-            </div>
 
-            {/* Quantities */}
-            <div>
-              <h2 className="font-semibold text-gray-900 mb-3">Quantities</h2>
-              <div className="flex gap-4">
-                {[0, 1, 2].map((index) => (
-                  <div key={index} className="flex-1">
+              {/* Quantities */}
+              <div>
+                <h2 className="font-semibold text-gray-900 mb-3">Quantities</h2>
+                <div className="flex gap-3">
+                  {[0, 1, 2].map((index) => (
                     <Input
+                      key={index}
                       type="number"
                       value={quantities[index]}
                       onChange={(e) => handleQuantityChange(index, e.target.value)}
@@ -80,30 +81,30 @@ const QuoteReview = () => {
                       className="w-full"
                       placeholder={`Quantity ${index + 1}`}
                     />
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
 
-            {/* Signature Section */}
-            <div>
-              <h2 className="font-semibold text-gray-900 mb-3">Signature</h2>
-              <div className="border rounded-lg p-4">
-                <div className="border rounded bg-white">
-                  <SignatureCanvas
-                    ref={sigPadRef}
-                    canvasProps={{
-                      className: "w-full h-40"
-                    }}
-                  />
-                </div>
+            {/* Signature Section - More Compact */}
+            <div className="border rounded-lg p-3">
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="font-semibold text-gray-900">Signature</h2>
                 <Button 
                   variant="outline" 
-                  className="mt-2"
+                  size="sm"
                   onClick={clearSignature}
                 >
-                  Clear Signature
+                  Clear
                 </Button>
+              </div>
+              <div className="border rounded bg-white">
+                <SignatureCanvas
+                  ref={sigPadRef}
+                  canvasProps={{
+                    className: "w-full h-32"
+                  }}
+                />
               </div>
             </div>
 
