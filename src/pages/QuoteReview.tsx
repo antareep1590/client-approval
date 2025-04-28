@@ -1,9 +1,27 @@
 
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Check, Image } from "lucide-react";
+import SignatureCanvas from 'react-signature-canvas';
+import { useRef, useState } from "react";
 
 const QuoteReview = () => {
+  const sigPadRef = useRef<any>(null);
+  const [quantities, setQuantities] = useState([0, 0, 0]);
+
+  const handleQuantityChange = (index: number, value: string) => {
+    const newQuantities = [...quantities];
+    newQuantities[index] = parseInt(value) || 0;
+    setQuantities(newQuantities);
+  };
+
+  const clearSignature = () => {
+    if (sigPadRef.current) {
+      sigPadRef.current.clear();
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
@@ -48,15 +66,66 @@ const QuoteReview = () => {
               </div>
             </div>
 
-            {/* Duration and Cost */}
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <h2 className="font-semibold text-gray-900">Duration</h2>
-                <p className="text-gray-600 mt-1">1.2 Man Hours</p>
+            {/* Quantities */}
+            <div>
+              <h2 className="font-semibold text-gray-900 mb-3">Quantities</h2>
+              <div className="flex gap-4">
+                {[0, 1, 2].map((index) => (
+                  <div key={index} className="flex-1">
+                    <Input
+                      type="number"
+                      value={quantities[index]}
+                      onChange={(e) => handleQuantityChange(index, e.target.value)}
+                      min={0}
+                      className="w-full"
+                      placeholder={`Quantity ${index + 1}`}
+                    />
+                  </div>
+                ))}
               </div>
-              <div>
-                <h2 className="font-semibold text-gray-900">Number of Stumps</h2>
-                <p className="text-gray-600 mt-1">3</p>
+            </div>
+
+            {/* Signature Section */}
+            <div>
+              <h2 className="font-semibold text-gray-900 mb-3">Signature</h2>
+              <div className="border rounded-lg p-4">
+                <div className="border rounded bg-white">
+                  <SignatureCanvas
+                    ref={sigPadRef}
+                    canvasProps={{
+                      className: "w-full h-40"
+                    }}
+                  />
+                </div>
+                <Button 
+                  variant="outline" 
+                  className="mt-2"
+                  onClick={clearSignature}
+                >
+                  Clear Signature
+                </Button>
+              </div>
+            </div>
+
+            {/* Images Section */}
+            <div>
+              <h2 className="font-semibold text-gray-900 mb-3">Work Images</h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {[
+                  'photo-1509316975850-ff9c5deb0cd9',
+                  'photo-1513836279014-a89f7a76ae86',
+                  'photo-1518495973542-4542c06a5843',
+                  'photo-1472396961693-142e6e269027',
+                  'photo-1426604966848-d7adac402bff'
+                ].map((photo, index) => (
+                  <div key={index} className="aspect-square relative rounded-lg overflow-hidden">
+                    <img
+                      src={`https://images.unsplash.com/${photo}?auto=format&fit=crop&w=400&h=400`}
+                      alt={`Work site image ${index + 1}`}
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+                ))}
               </div>
             </div>
 
