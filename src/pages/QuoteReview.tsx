@@ -7,13 +7,7 @@ import { useRef, useState } from "react";
 
 const QuoteReview = () => {
   const sigPadRef = useRef<any>(null);
-  const [quantities, setQuantities] = useState([0, 0, 0]);
-
-  const handleQuantityChange = (index: number, value: string) => {
-    const newQuantities = [...quantities];
-    newQuantities[index] = parseInt(value) || 0;
-    setQuantities(newQuantities);
-  };
+  const [quantity, setQuantity] = useState(0);
 
   const clearSignature = () => {
     if (sigPadRef.current) {
@@ -56,33 +50,28 @@ const QuoteReview = () => {
               </div>
             </div>
 
-            {/* Service Details and Quantities Side by Side */}
+            {/* Item Description and Quantity Side by Side */}
             <div className="grid md:grid-cols-2 gap-6">
-              {/* Service Details */}
+              {/* Item Description */}
               <div>
-                <h2 className="font-semibold text-gray-900 mb-3">Service Details</h2>
+                <h2 className="font-semibold text-gray-900 mb-3">Item Description</h2>
                 <div className="bg-white border rounded-lg p-4">
                   <h3 className="font-medium text-gray-900">Take Down and Remove (TDR)</h3>
                   <p className="text-gray-600 mt-1">Cut down and remove (log, branches, brush). Location to be prune-less than 16 inches in diameter.</p>
                 </div>
               </div>
 
-              {/* Quantities */}
+              {/* Quantity */}
               <div>
-                <h2 className="font-semibold text-gray-900 mb-3">Quantities</h2>
-                <div className="flex gap-3">
-                  {[0, 1, 2].map((index) => (
-                    <Input
-                      key={index}
-                      type="number"
-                      value={quantities[index]}
-                      onChange={(e) => handleQuantityChange(index, e.target.value)}
-                      min={0}
-                      className="w-full"
-                      placeholder={`Quantity ${index + 1}`}
-                    />
-                  ))}
-                </div>
+                <h2 className="font-semibold text-gray-900 mb-3">Quantity</h2>
+                <Input
+                  type="number"
+                  value={quantity}
+                  onChange={(e) => setQuantity(parseInt(e.target.value) || 0)}
+                  min={0}
+                  className="w-full"
+                  placeholder="Enter quantity"
+                />
               </div>
             </div>
 
