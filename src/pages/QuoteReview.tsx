@@ -8,17 +8,14 @@ const QuoteReview = () => {
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
         <Card className="max-w-4xl mx-auto">
-          <CardHeader className="border-b">
-            <div className="flex items-start justify-between">
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">Work Order #733</h1>
-                <p className="text-gray-600 mt-1">Steve's Demo Bronico Trees and Landscaping, LLC</p>
-              </div>
+          <CardHeader className="border-b pb-6">
+            <div className="flex flex-col items-center justify-center">
               <img 
-                src="/lovable-uploads/5e15c6f2-7d2d-4fbe-9686-d3a8f8f16767.png" 
-                alt="Company Logo" 
-                className="w-24 h-auto"
+                src="/lovable-uploads/8b5f4ffc-4e36-4941-ac5f-619e4a87483d.png" 
+                alt="Timber Pros Tree Service" 
+                className="h-32 w-auto mb-4"
               />
+              <h1 className="text-2xl font-bold text-gray-900">Work Order #733</h1>
             </div>
           </CardHeader>
           
