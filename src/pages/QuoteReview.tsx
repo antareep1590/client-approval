@@ -17,8 +17,8 @@ const QuoteReview = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4">
-        <Card className="max-w-4xl mx-auto">
+      <div className="container-fluid px-4 mx-auto">
+        <Card className="max-w-6xl mx-auto">
           <CardHeader className="border-b pb-6">
             <div className="flex flex-col items-center justify-center">
               <img 
