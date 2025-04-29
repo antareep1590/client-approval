@@ -1,18 +1,60 @@
+
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Check, Image } from "lucide-react";
+import { Check, X, Image } from "lucide-react";
 import SignatureCanvas from 'react-signature-canvas';
 import { useRef, useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { useToast } from "@/hooks/use-toast";
 
 const QuoteReview = () => {
   const sigPadRef = useRef<any>(null);
   const [quantity, setQuantity] = useState(0);
+  const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
+  const [rejectionReason, setRejectionReason] = useState("");
+  const { toast } = useToast();
 
   const clearSignature = () => {
     if (sigPadRef.current) {
       sigPadRef.current.clear();
     }
+  };
+
+  const handleApproveQuote = () => {
+    toast({
+      title: "Quote Approved",
+      description: "The quote has been successfully approved.",
+    });
+  };
+
+  const handleRejectQuote = () => {
+    if (rejectionReason.trim() === "") {
+      toast({
+        title: "Error",
+        description: "Please provide a reason for rejecting the quote.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Quote Rejected",
+      description: "The quote has been rejected with your comments.",
+      variant: "destructive",
+    });
+    setRejectDialogOpen(false);
+    setRejectionReason("");
   };
 
   return (
@@ -121,9 +163,20 @@ const QuoteReview = () => {
               </div>
             </div>
 
-            {/* Approval Button */}
-            <div className="flex justify-end pt-4">
-              <Button className="bg-green-600 hover:bg-green-700">
+            {/* Action Buttons */}
+            <div className="flex justify-end pt-4 gap-4">
+              <Button 
+                variant="outline" 
+                className="border-red-600 text-red-600 hover:bg-red-50 hover:text-red-700"
+                onClick={() => setRejectDialogOpen(true)}
+              >
+                <X className="w-4 h-4 mr-2" />
+                Reject Quote
+              </Button>
+              <Button 
+                className="bg-green-600 hover:bg-green-700"
+                onClick={handleApproveQuote}
+              >
                 <Check className="w-4 h-4 mr-2" />
                 Approve Quote
               </Button>
@@ -131,6 +184,35 @@ const QuoteReview = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Rejection Reason Dialog */}
+      <AlertDialog open={rejectDialogOpen} onOpenChange={setRejectDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Reject Quote</AlertDialogTitle>
+            <AlertDialogDescription>
+              Please provide a reason for rejecting this quote. This feedback will be shared with the service provider.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="py-4">
+            <Textarea
+              placeholder="Enter your reason for rejecting the quote..."
+              className="min-h-[100px]"
+              value={rejectionReason}
+              onChange={(e) => setRejectionReason(e.target.value)}
+            />
+          </div>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleRejectQuote}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              Submit Rejection
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
