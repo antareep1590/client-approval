@@ -20,7 +20,11 @@ import { useToast } from "@/hooks/use-toast";
 
 const QuoteReview = () => {
   const sigPadRef = useRef<any>(null);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  const [amount, setAmount] = useState(250);
+  const [subTotal, setSubTotal] = useState(250);
+  const [discount, setDiscount] = useState(0);
+  const [total, setTotal] = useState(250);
   const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
   const [rejectionReason, setRejectionReason] = useState("");
   const { toast } = useToast();
@@ -29,6 +33,21 @@ const QuoteReview = () => {
     if (sigPadRef.current) {
       sigPadRef.current.clear();
     }
+  };
+
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newAmount = parseFloat(e.target.value) || 0;
+    setAmount(newAmount);
+    
+    // Update subtotal and total based on new amount
+    setSubTotal(quantity * newAmount);
+    setTotal((quantity * newAmount) - discount);
+  };
+
+  const handleDiscountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newDiscount = parseFloat(e.target.value) || 0;
+    setDiscount(newDiscount);
+    setTotal(subTotal - newDiscount);
   };
 
   const handleApproveQuote = () => {
@@ -92,30 +111,89 @@ const QuoteReview = () => {
               </div>
             </div>
 
-            {/* Item Description and Quantity in Single Row */}
+            {/* Item Description, Quantity and Amount in Single Row */}
             <div className="grid grid-cols-12 gap-6">
               {/* Item Description */}
-              <div className="col-span-9">
+              <div className="col-span-7">
                 <h2 className="font-semibold text-gray-900 mb-3">Item Description</h2>
                 <div className="bg-white border rounded-lg p-4">
-                  <div className="flex flex-col space-y-1">
-                    <h3 className="font-medium text-gray-900">Take Down and Remove (TDR)</h3>
-                    <p className="text-gray-600">Cut down and remove (log, branches, brush). Location to be prune-less than 16 inches in diameter.</p>
-                  </div>
+                  <p className="text-gray-600">Cut down and remove (log, branches, brush). Location to be prune-less than 16 inches in diameter.</p>
                 </div>
               </div>
 
               {/* Quantity */}
-              <div className="col-span-3">
+              <div className="col-span-2">
                 <h2 className="font-semibold text-gray-900 mb-3">Quantity</h2>
                 <Input
                   type="number"
                   value={quantity}
-                  onChange={(e) => setQuantity(parseInt(e.target.value) || 0)}
-                  min={0}
-                  className="w-full"
-                  placeholder="Enter quantity"
+                  readOnly
+                  className="w-full bg-gray-100 cursor-not-allowed"
                 />
+              </div>
+
+              {/* Amount */}
+              <div className="col-span-3">
+                <h2 className="font-semibold text-gray-900 mb-3">Amount</h2>
+                <div className="relative">
+                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-600">$</span>
+                  <Input
+                    type="number"
+                    value={amount}
+                    onChange={handleAmountChange}
+                    className="w-full pl-8"
+                    min={0}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Price Summary */}
+            <div className="grid grid-cols-1 gap-4 max-w-sm ml-auto">
+              {/* Sub-total */}
+              <div className="flex items-center justify-between">
+                <label htmlFor="subtotal" className="font-semibold text-gray-900 w-24">Sub-total:</label>
+                <div className="relative flex-1">
+                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-600">$</span>
+                  <Input
+                    id="subtotal"
+                    type="number"
+                    value={subTotal}
+                    readOnly
+                    className="w-full pl-8 bg-gray-100 cursor-not-allowed"
+                  />
+                </div>
+              </div>
+
+              {/* Discount */}
+              <div className="flex items-center justify-between">
+                <label htmlFor="discount" className="font-semibold text-gray-900 w-24">Discount:</label>
+                <div className="relative flex-1">
+                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-600">$</span>
+                  <Input
+                    id="discount"
+                    type="number"
+                    value={discount}
+                    onChange={handleDiscountChange}
+                    className="w-full pl-8"
+                    min={0}
+                  />
+                </div>
+              </div>
+
+              {/* Total */}
+              <div className="flex items-center justify-between">
+                <label htmlFor="total" className="font-semibold text-gray-900 w-24">Total:</label>
+                <div className="relative flex-1">
+                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-600">$</span>
+                  <Input
+                    id="total"
+                    type="number"
+                    value={total}
+                    readOnly
+                    className="w-full pl-8 bg-gray-100 cursor-not-allowed font-bold"
+                  />
+                </div>
               </div>
             </div>
 
