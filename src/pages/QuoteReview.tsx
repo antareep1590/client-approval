@@ -1,4 +1,3 @@
-
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -140,9 +139,8 @@ const QuoteReview = () => {
                   <Input
                     type="number"
                     value={amount}
-                    onChange={handleAmountChange}
-                    className="w-full pl-8"
-                    min={0}
+                    readOnly
+                    className="w-full pl-8 bg-gray-100 cursor-not-allowed"
                   />
                 </div>
               </div>
@@ -174,9 +172,8 @@ const QuoteReview = () => {
                     id="discount"
                     type="number"
                     value={discount}
-                    onChange={handleDiscountChange}
-                    className="w-full pl-8"
-                    min={0}
+                    readOnly
+                    className="w-full pl-8 bg-gray-100 cursor-not-allowed"
                   />
                 </div>
               </div>
